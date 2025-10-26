@@ -97,7 +97,7 @@ export default function HospitalDoctors() {
                   style={[styles.btn, { backgroundColor: "#007bff" }]}
                   onPress={() =>
                     router.push({
-                      pathname: "/Home/doctorDetails",
+                      pathname: "/(main)/Home/(tabs)/doctorDetails",
                       params: { uid: item.uid },
                     })
                   }
@@ -109,7 +109,7 @@ export default function HospitalDoctors() {
                   style={[styles.btn, { backgroundColor: "#28a745" }]}
                   onPress={() =>
                     router.push({
-                      pathname: "/Booking/booking",
+                      pathname: "/(main)/Booking/booking",
                       params: {
                         uid: item.uid,
                         name: item.name,
@@ -131,7 +131,7 @@ export default function HospitalDoctors() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#eed4d4ff", padding: 16 },
+  container: { flex: 1, backgroundColor: "#eed4d4ff", padding: 16, paddingBottom: 70 },
   header: {
     fontSize: 20,
     fontWeight: "bold",

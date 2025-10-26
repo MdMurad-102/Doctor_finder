@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BottomNav from "../ButtonNav/components";
 
 export default function DepartmentScreen() {
   const [departments, setDepartments] = useState<string[]>([]);
@@ -87,7 +86,7 @@ export default function DepartmentScreen() {
               style={styles.card}
               onPress={() =>
                 router.push({
-                  pathname: "/Department/departmentDoctors",
+                  pathname: "/(main)/Department/departmentDoctors",
                   params: { department: item },
                 })
               }
@@ -98,14 +97,12 @@ export default function DepartmentScreen() {
         />
       )}
 
-      {/* --- Bottom Navigation --- */}
-      <BottomNav />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f0dedeff", padding: 16 },
+  container: { flex: 1, backgroundColor: "#f0dedeff", padding: 16, paddingBottom: 70 },
   header: {
     fontSize: 22,
     fontWeight: "bold",

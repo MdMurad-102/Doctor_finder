@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { get, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { theme } from "@/constants/theme";
 
 export default function DoctorDetails() {
   const { uid } = useLocalSearchParams(); // uid from navigation params
@@ -96,72 +97,73 @@ export default function DoctorDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#aafa",
+    backgroundColor: theme.colors.background,
   },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f8f8faff",
+    backgroundColor: theme.colors.background,
   },
   loadingText: {
-    marginTop: 8,
-    color: "#007bff",
+    marginTop: theme.spacing.xs,
+    color: theme.colors.primary,
     fontSize: 16,
   },
   notFoundText: {
-    color: "#dc3545",
+    color: theme.colors.danger,
     fontSize: 16,
   },
   avatarContainer: {
     alignItems: "center",
-    paddingVertical: 20,
-    backgroundColor: "#007bff10",
-    marginBottom: 16,
+    paddingVertical: theme.spacing.lg,
+    backgroundColor: theme.colors.surface,
+    marginBottom: theme.spacing.md,
+    ...theme.shadow,
+    borderBottomLeftRadius: theme.radius.md,
+    borderBottomRightRadius: theme.radius.md,
   },
   avatar: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    marginBottom: 12,
+    marginBottom: theme.spacing.sm,
     borderWidth: 2,
-    borderColor: "#007bff",
+    borderColor: theme.colors.primary,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#007bff",
+    fontSize: 22,
+    fontWeight: "700",
+    color: theme.colors.text,
     marginBottom: 4,
   },
   subtitle: {
-    fontSize: 16,
-    color: "#495057",
+    fontSize: 14,
+    color: theme.colors.muted,
     marginBottom: 2,
   },
   infoContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 20,
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.lg,
   },
   card: {
-    backgroundColor: "#f1e6efff",
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    elevation: 3,
-    shadowColor: "#f04806ff",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    backgroundColor: theme.colors.surface,
+    padding: theme.spacing.md,
+    borderRadius: theme.radius.md,
+    marginBottom: theme.spacing.sm,
+    ...theme.shadow,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
   },
   cardLabel: {
-    fontSize: 16,
-    color: "#3fe60cff",
+    fontSize: 14,
+    color: theme.colors.muted,
     marginBottom: 4,
     fontWeight: "600",
   },
   cardValue: {
     fontSize: 16,
-    fontWeight: "500",
-    color: "#0a7ceeff",
+    fontWeight: "600",
+    color: theme.colors.text,
   },
 });

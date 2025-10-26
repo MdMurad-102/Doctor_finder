@@ -23,20 +23,20 @@ export default function BottomNav() {
 
   return (
     <View style={styles.navBar}>
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Home/(tabs)/home")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Home/(tabs)/home")}>
         <Text style={styles.navText}>Home</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Hospital/hospitals")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Hospital/hospitals")}>
         <Text style={styles.navText}>Hospital</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Department/department")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Department/department")}>
         <Text style={styles.navText}>Department</Text>
       </TouchableOpacity>
 
       {role === "doctor" && (
-        <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Doctor/doctorHome")}>
+        <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Doctor/doctorHome")}>
           <Text style={styles.navText}>Profile</Text>
         </TouchableOpacity>
       )}

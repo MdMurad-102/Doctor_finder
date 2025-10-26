@@ -30,10 +30,13 @@ export default function BookingList() {
         const data = snapshot.val();
         const list = Object.keys(data)
           .map((key) => ({ id: key, ...data[key] }))
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+          .sort((a, b) => {
+            // Prefer createdAt when present, otherwise fallback to key order
+            const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            if (aTime !== 0 || bTime !== 0) return bTime - aTime;
+            return b.id.localeCompare(a.id); // push keys are time-ordered
+          });
         setBookings(list);
       } else {
         setBookings([]);
@@ -66,32 +69,24 @@ export default function BookingList() {
     }
   };
 
-  const handleDelete = (item: any) => {
+  const handleReject = (item: any) => {
     if (!doctorId || !item.id) return;
 
     Alert.alert(
-      "Confirm Delete",
-      "Are you sure you want to delete this booking?",
+      "Reject Booking",
+      "Are you sure you want to reject this booking?",
       [
         { text: "Cancel", style: "cancel" },
         {
-          text: "Delete",
+          text: "Reject",
           style: "destructive",
           onPress: async () => {
             try {
-              console.log(
-                "Deleting booking:",
-                item.id,
-                "for doctor:",
-                doctorId
-              );
               const bookingRef = ref(db, `bookings/${doctorId}/${item.id}`);
-              await remove(bookingRef);
-              console.log("Deleted successfully");
-              Alert.alert("Deleted", "Booking has been removed.");
-              // UI automatically update hobe onValue listener diye
+              await update(bookingRef, { status: "rejected" });
+              Alert.alert("Rejected", "Booking has been rejected.");
             } catch (error: any) {
-              console.log("Delete error:", error.message);
+              console.log("Reject error:", error.message);
               Alert.alert("Error", error.message);
             }
           },
@@ -144,14 +139,17 @@ export default function BookingList() {
               )}
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: "red" }]}
-                onPress={() => handleDelete(item)}
+                onPress={() => handleReject(item)}
               >
-                <Text style={styles.btnText}>Delete</Text>
+                <Text style={styles.btnText}>Reject</Text>
               </TouchableOpacity>
             </View>
 
             {item.status === "accepted" && (
               <Text style={styles.acceptedText}>Accepted</Text>
+            )}
+            {item.status === "rejected" && (
+              <Text style={styles.rejectedText}>Rejected</Text>
             )}
           </View>
         ))
@@ -222,6 +220,12 @@ const styles = StyleSheet.create({
   acceptedText: {
     fontWeight: "bold",
     color: "green",
+    marginTop: 5,
+    fontSize: 16,
+  },
+  rejectedText: {
+    fontWeight: "bold",
+    color: "red",
     marginTop: 5,
     fontSize: 16,
   },

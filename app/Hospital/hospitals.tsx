@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BottomNav from "../ButtonNav/components";
 
 export default function HospitalScreen() {
   const [hospitals, setHospitals] = useState<string[]>([]);
@@ -102,8 +101,6 @@ export default function HospitalScreen() {
         />
       )}
 
-      {/* --- Bottom Navigation --- */}
-      <BottomNav />
     </View>
   );
 }

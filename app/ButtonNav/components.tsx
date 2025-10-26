@@ -1,19 +1,20 @@
 // components/BottomNav.tsx
 import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { theme } from "@/constants/theme";
 
 export default function BottomNav() {
   return (
     <View style={styles.navBar}>
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Home/(tabs)/home")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Home/(tabs)/home")}>
         <Text style={styles.navText}>Home</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Department/department")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Department/department")}>
         <Text style={styles.navText}>Department</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/Hospital/hospitals")}>
+      <TouchableOpacity style={styles.navBtn} onPress={() => router.push("/(main)/Hospital/hospitals")}>
         <Text style={styles.navText}>Hospital</Text>
       </TouchableOpacity>
     </View>
@@ -24,10 +25,10 @@ const styles = StyleSheet.create({
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#ffffffff",
-    paddingVertical: 12,
+    backgroundColor: theme.colors.tabBarBg,
+    paddingVertical: theme.spacing.sm,
     borderTopWidth: 1,
-    borderColor: "#ffffffff",
+    borderColor: theme.colors.tabBarBorder,
 
     // Fixed at bottom
     position: "absolute",
@@ -40,9 +41,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#0831e9ff",
+    fontSize: 14,
+    fontWeight: "600",
+    color: theme.colors.tabBarActive,
   },
 });
 
