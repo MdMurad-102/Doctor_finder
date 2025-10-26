@@ -1,4 +1,6 @@
+import { theme } from "@/constants/theme";
 import { db } from "@/firebaseConfig";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
@@ -13,7 +15,6 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { theme } from "@/constants/theme";
 
 export default function HomeScreen() {
   const [doctors, setDoctors] = useState<any[]>([]);
@@ -145,6 +146,21 @@ export default function HomeScreen() {
           )}
         />
       )}
+
+      {/* Floating AI Chat Button - Enhanced */}
+      <TouchableOpacity
+        style={styles.aiChatButton}
+        onPress={() => router.push("/Home/(tabs)/aiChat")}
+        activeOpacity={0.8}
+      >
+        <View style={styles.aiChatIconContainer}>
+          <Ionicons name="chatbubbles" size={26} color="#fff" />
+          <View style={styles.aiChatBadge}>
+            <Ionicons name="sparkles" size={10} color="#FFD700" />
+          </View>
+        </View>
+        <Text style={styles.aiChatLabel}>AI Help</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -195,4 +211,52 @@ const styles = StyleSheet.create({
   btn: { flex: 1, paddingVertical: 8, borderRadius: theme.radius.sm, alignItems: "center" },
   btnText: { color: theme.colors.surface, fontWeight: "700", fontSize: 14 },
   noData: { textAlign: "center", marginTop: 40, fontSize: 16, color: theme.colors.muted },
+
+  // Enhanced AI Chat Button Styles
+  aiChatButton: {
+    position: "absolute",
+    right: 20,
+    bottom: 90,
+    backgroundColor: "#007AFF",
+    borderRadius: 28,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+  },
+  aiChatIconContainer: {
+    position: "relative",
+    width: 32,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  aiChatBadge: {
+    position: "absolute",
+    top: -4,
+    right: -4,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: "#FF3B30",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+  aiChatLabel: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
 });
