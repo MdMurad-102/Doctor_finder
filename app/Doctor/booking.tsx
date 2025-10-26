@@ -1,4 +1,5 @@
 import { db } from "@/firebaseConfig";
+import { sendAcceptanceEmail } from "@/services/emailService";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { onValue, ref, update } from "firebase/database";
@@ -71,6 +72,15 @@ export default function BookingList() {
       const minutes = appointmentTime.getMinutes();
       const formattedTime = `${hours > 12 ? hours - 12 : hours}:${minutes.toString().padStart(2, "0")} ${hours >= 12 ? "PM" : "AM"}`;
 
+      // Format date
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
       const bookingRef = ref(db, `bookings/${doctorId}/${item.id}`);
       await update(bookingRef, {
         status: "accepted",
@@ -80,9 +90,39 @@ export default function BookingList() {
         acceptedAt: new Date().toISOString(),
       });
 
+      // Send acceptance email to patient
+      if (item.email) {
+        const emailData = {
+          patientEmail: item.email,
+          patientName: item.patientName || "Patient",
+          doctorName: item.doctorName || "Doctor",
+          doctorDegree: item.doctorDegree || "",
+          department: item.department || "General",
+          hospital: item.hospitalName || item.hospital || "Hospital",
+          appointmentDate: formattedDate,
+          appointmentTime: formattedTime,
+          appointmentDuration: "20 minutes",
+          serialNumber: serialNumber.toString(),
+          acceptedAt: new Date().toLocaleString(),
+        };
+
+        // Send email asynchronously (don't block UI)
+        sendAcceptanceEmail(emailData)
+          .then((result) => {
+            if (result.success) {
+              console.log("✅ Email notification sent successfully");
+            } else {
+              console.log("⚠️ Email notification failed:", result.error);
+            }
+          })
+          .catch((error) => {
+            console.log("⚠️ Email error:", error);
+          });
+      }
+
       Alert.alert(
         "Success",
-        `Booking accepted!\nSerial: ${serialNumber}\nTime: ${formattedTime}\nDuration: 20 minutes`
+        `Booking accepted!\n\nSerial: ${serialNumber}\nTime: ${formattedTime}\nDuration: 20 minutes${item.email ? '\n\n✅ Email confirmation sent to patient' : ''}`
       );
     } catch (error: any) {
       Alert.alert("Error", error.message);
@@ -197,6 +237,16 @@ export default function BookingList() {
                   <Text style={styles.value}>{item.phone || "N/A"}</Text>
                 </View>
               </View>
+
+              {item.email && (
+                <View style={styles.infoRow}>
+                  <Ionicons name="mail" size={20} color="#007AFF" />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.label}>Email Address</Text>
+                    <Text style={styles.value}>{item.email}</Text>
+                  </View>
+                </View>
+              )}
 
               {item.reason && (
                 <View style={styles.infoRow}>

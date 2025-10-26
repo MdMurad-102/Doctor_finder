@@ -3,7 +3,7 @@
 // API Key from: https://openrouter.ai/
 
 export const AI_CONFIG = {
-    OPENROUTER_API_KEY: "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",
+    OPENROUTER_API_KEY: "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",
     API_URL: "https://openrouter.ai/api/v1/chat/completions",
     MODEL: "meta-llama/llama-3.2-3b-instruct:free", // Changed from gemma (better instruction support)
     SITE_URL: "https://doctor-finder-app.com", // Your app URL
